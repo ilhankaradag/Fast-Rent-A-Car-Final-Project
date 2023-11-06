@@ -8,6 +8,10 @@ const {
   deleteReservation,
   register,
   login,
+  getAllUsers,
+  getUser,
+  updateUser,
+  deleteUser,
 } = require('../controllers/controllers.js');
 
 //CREATE
@@ -24,5 +28,14 @@ router.get('/reservation', getAllReservation);
 router.post('/register', register);
 //LOGIN
 router.post('/login', login);
+//USER
+//USER UPDATE
+router.put('/user/:id', updateUser);
+//USER DELETE
+router.delete('/user/:id', deleteUser);
+//USER GET
+router.get('/user/:id', getUser);
+//USER GET ALL
+router.get('/users', getAllUsers);
 
 module.exports = router;

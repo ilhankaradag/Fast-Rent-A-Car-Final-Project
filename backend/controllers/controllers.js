@@ -57,7 +57,7 @@ const deleteReservation = async (req, res) => {
     res.status(500).send({ msg: 'server error from delete controllers' });
   }
 };
-
+// AUTH
 const register = async (req, res) => {
   try {
     let hashPassword = await bcrypt.hash(req.body.password, 10);
@@ -76,7 +76,7 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
   try {
-    let { email, password, role } = req.body;
+    let { email, password } = req.body;
     if (!email || !password) {
       return res
         .status(402)
@@ -89,6 +89,20 @@ const login = async (req, res) => {
         return res.status(401).send({ msg: 'Invalid password' });
       } else {
         return res.send({ msg: 'login successful' });
+        // let token = jwt.sign(
+        //   {
+        //     email: oldUser.email,
+        //     id: oldUser._id,
+        //   },
+        //   process.env.TOKEN_KEY,
+        //   // { expiresIn: "2h" }
+        // );
+        res
+          // .cookie('token', token, {
+          //   httpOnly: true,
+          // })
+          .status(200)
+          .send({ msg: 'Login successful', token });
       }
     } else {
       return res
@@ -100,6 +114,49 @@ const login = async (req, res) => {
   }
 };
 
+// USERS
+const getAllUsers = async (req, res) => {
+  try {
+    let users = await User.find();
+    res.status(200).send(users);
+  } catch (error) {
+    res.status(500).send({ msg: 'server error from getAll controllers' });
+  }
+};
+
+const getUser = async (req, res) => {
+  try {
+    let user = await User.findById(req.params.id);
+    res.status(200).send(user);
+  } catch (error) {
+    res.status(500).send({ msg: 'server error from getUser controllers' });
+  }
+};
+
+const updateUser = async (req, res) => {
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: req.body,
+      },
+      { new: true },
+    );
+    res.status(200).json(updatedUser);
+  } catch (error) {
+    res.status(500).send({ msg: 'server error from update controllers' });
+  }
+};
+
+const deleteUser = async (req, res) => {
+  try {
+    await User.findByIdAndDelete(req.params.id);
+    res.status(200).json('User has been deleted.');
+  } catch (error) {
+    res.status(500).send({ msg: 'server error from delete controllers' });
+  }
+};
+
 module.exports = {
   getAllReservation,
   getReservation,
@@ -108,4 +165,8 @@ module.exports = {
   deleteReservation,
   register,
   login,
+  getAllUsers,
+  getUser,
+  updateUser,
+  deleteUser,
 };
