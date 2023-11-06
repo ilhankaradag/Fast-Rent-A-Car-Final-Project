@@ -1,4 +1,4 @@
-# WORLD-TRAVEL-FINALPROJECT
+# Fast-Rent-A-Car-Final-Project
 This project was bootstrapped with Create React App.
 
 Available Scripts
