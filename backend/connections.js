@@ -1,13 +1,26 @@
 const mongoose = require('mongoose');
+const Admin = require('./models/Admin');
 require('dotenv').config();
 
 URI = process.env.MONGODB_URI;
 
 async function main() {
-  await mongoose.connect(URI);
+  try {
+    await mongoose.connect(URI);
+    // const admin = new Admin({
+    //   name: 'admin',
+    //   email: 'admin@gmail.com',
+    //   password: 'admin123',
+    //   isAdmin: true,
+    // });
+
+    // await admin.save();
+
+    console.log('MongoDb Connect');
+  } catch (error) {
+    console.log(error);
+  }
 }
-main()
-  .then(() => console.log('MONGODB IS CONNECTED'))
-  .catch((err) => console.log(err));
+main();
 
 module.exports = main;

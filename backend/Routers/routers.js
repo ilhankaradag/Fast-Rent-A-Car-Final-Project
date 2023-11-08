@@ -28,6 +28,7 @@ router.get('/reservation', getAllReservation);
 router.post('/register', register);
 //LOGIN
 router.post('/login', login);
+
 //USER
 //USER UPDATE
 router.put('/user/:id', updateUser);
