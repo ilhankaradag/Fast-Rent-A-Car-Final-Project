@@ -14,6 +14,7 @@ const {
   deleteUser,
 } = require('../controllers/controllers.js');
 
+const isAdmin = require('../middleware/isAdmin');
 //CREATE
 router.post('/create', createReservation);
 //UPDATE
@@ -23,7 +24,7 @@ router.delete('/:id', deleteReservation);
 //GET
 router.get('/reservation/:id', getReservation);
 //GET ALL
-router.get('/reservation', getAllReservation);
+router.get('/reservation', isAdmin, getAllReservation);
 //REGISTER
 router.post('/register', register);
 //LOGIN

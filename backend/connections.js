@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const Admin = require('./models/Admin');
 require('dotenv').config();
 
 URI = process.env.MONGODB_URI;

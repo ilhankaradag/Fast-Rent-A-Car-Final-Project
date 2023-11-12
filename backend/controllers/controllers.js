@@ -89,20 +89,6 @@ const login = async (req, res) => {
         return res.status(401).send({ msg: 'Invalid password' });
       } else {
         return res.send({ msg: 'login successful' });
-        // let token = jwt.sign(
-        //   {
-        //     email: oldUser.email,
-        //     id: oldUser._id,
-        //   },
-        //   process.env.TOKEN_KEY,
-        //   // { expiresIn: "2h" }
-        // );
-        res
-          // .cookie('token', token, {
-          //   httpOnly: true,
-          // })
-          .status(200)
-          .send({ msg: 'Login successful', token });
       }
     } else {
       return res
