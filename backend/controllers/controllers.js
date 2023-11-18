@@ -1,6 +1,8 @@
 const Reservation = require('../models/Cars');
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const verifyToken = require('../middleware/authorization');
 require('dotenv').config();
 
 const getAllReservation = async (req, res) => {
@@ -60,20 +62,21 @@ const deleteReservation = async (req, res) => {
 // AUTH
 const register = async (req, res) => {
   try {
-    let hashPassword = await bcrypt.hash(req.body.password, 10);
-    const newUser = new User({
-      username: req.body.username,
-      email: req.body.email,
-      password: hashPassword,
-    });
-
-    await newUser.save();
+    let { email, password, username } = req.body;
+    if (!email || !password || !username) {
+      return res.send({ msg: 'All fields are required' });
+    }
+    let found = await User.findOne({ email });
+    if (found) {
+      return res.send({ msg: 'Email already exists' });
+    }
+    let hashPassword = await bcrypt.hash(password, 10);
+    await User.create({ username, email, password: hashPassword });
     return res.send({ msg: 'Registered successfully' });
-  } catch {
-    res.status(500).send({ msg: 'server error from Registered controllers' });
+  } catch (error) {
+    res.status(500).send({ msg: 'Internal server error' });
   }
 };
-
 const login = async (req, res) => {
   try {
     let { email, password } = req.body;
@@ -88,7 +91,15 @@ const login = async (req, res) => {
       if (!validPassword) {
         return res.status(401).send({ msg: 'Invalid password' });
       } else {
-        return res.send({ msg: 'login successful' });
+        let token = jwt.sign(
+          {
+            email: oldUser.email,
+            id: oldUser._id,
+            role: oldUser.role,
+          },
+          process.env.TOKEN_KEY,
+        );
+        res.status(200).send({ msg: 'Login successful', token });
       }
     } else {
       return res

@@ -23,20 +23,6 @@ function App() {
     desc: '',
   });
 
-  // const getAllReservations = useCallback(async () => {
-  //   try {
-  //     const response = await axios.get('http://localhost:7000/reservation');
-  //     setReservations(response.data);
-  //     console.log(response.data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   getAllReservations();
-  // }, [getAllReservations]);
-
   function getAllReservations() {
     try {
       axios
