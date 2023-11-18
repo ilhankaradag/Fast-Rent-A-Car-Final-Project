@@ -73,3 +73,39 @@ body {
   background-clip: text;
   -webkit-background-clip: text;
 }
+
+.slider {
+  background-color: var(--color1-transparent-15);
+}
+
+.slider .carousel-caption {
+  top: 0;
+  left: 0;
+  text-align: left;
+}
+
+.slider .carousel-control-next,
+.slider .carousel-control-prev {
+  top: auto;
+  bottom: 15px;
+  width: auto;
+}
+
+.slider .carousel-control-prev {
+  right: 50px;
+  left: auto;
+}
+
+.slider form {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 0.2rem;
+}
+
+.slider .input-group-text {
+  font-size: 0.8rem;
+}
+
+.slider .row {
+  align-items: center;
+}

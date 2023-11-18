@@ -24,7 +24,7 @@ router.delete('/:id', deleteReservation);
 //GET
 router.get('/reservation/:id', getReservation);
 //GET ALL
-router.get('/reservation', isAdmin, getAllReservation);
+router.get('/reservation', getAllReservation);
 //REGISTER
 router.post('/register', register);
 //LOGIN
