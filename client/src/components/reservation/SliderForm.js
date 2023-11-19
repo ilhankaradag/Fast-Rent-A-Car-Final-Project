@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 
 const SliderForm = ({ getAllReservations }) => {
   const navigate = useNavigate();
+  let token = localStorage.getItem('token');
 
   const [reservation, setReservation] = useState({
     model: '',
@@ -17,6 +18,7 @@ const SliderForm = ({ getAllReservations }) => {
     pickupdate: '',
     dropoffdate: '',
     desc: '',
+    // owner: '',
   });
 
   const handleInputChange = (e, fieldName) => {
@@ -29,7 +31,9 @@ const SliderForm = ({ getAllReservations }) => {
   function addNewReservation(e) {
     try {
       axios
-        .post('http://localhost:7000/create', reservation)
+        .post('http://localhost:7000/create', reservation, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
         .then((res) => {
           console.log(res.data);
           getAllReservations();

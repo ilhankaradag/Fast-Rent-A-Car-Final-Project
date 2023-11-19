@@ -1,5 +1,5 @@
 import React from 'react';
-import * as jwt_decode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import { Row, Col, Container, Button } from 'react-bootstrap';
 import {
   FiFacebook,
@@ -21,10 +21,10 @@ const TopBar = () => {
     token = localStorage.getItem('token');
 
     if (token) {
-      decoded = jwt_decode(token);
+      decoded = jwtDecode(token);
     }
     console.log('Token:', token);
-    console.log('Decoded:', decoded.role);
+    console.log('Decoded:', decoded.email);
   } catch (error) {
     console.log('Invalid token', error);
   }
@@ -97,6 +97,9 @@ const TopBar = () => {
                   </li>
                   <li className="d-none d-md-block">
                     <FiInstagram />
+                  </li>
+                  <li className="d-none d-md-block">
+                    <Button href="/login">{decoded.email}</Button>
                   </li>
                   <li className="d-none d-md-block">
                     <Button href="/login" onClick={handleLogout}>

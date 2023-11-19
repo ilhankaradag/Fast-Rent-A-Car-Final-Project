@@ -10,7 +10,8 @@ import About from './components/about/About';
 import Contact from './components/contact/Contact';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import ListAdminReservation from './components/reservation/ListAdminReservation';
 
 function App() {
   const [reservations, setReservations] = useState([]);
@@ -21,21 +22,31 @@ function App() {
     pickupdate: '',
     dropoffdate: '',
     desc: '',
+    // owner: '',
   });
 
-  function getAllReservations() {
+  // function getAllReservations() {
+  //   try {
+  //     axios
+  //       .get('http://localhost:7000/reservation')
+  //       .then((res) => {
+  //         setReservations(res.data);
+  //         console.log('ALL', res.data);
+  //       })
+  //       .catch((err) => console.log(err));
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // }
+  const getAllReservations = useCallback(async () => {
     try {
-      axios
-        .get('http://localhost:7000/reservation')
-        .then((res) => {
-          setReservations(res.data);
-          console.log('ALL', res.data);
-        })
-        .catch((err) => console.log(err));
+      const response = await axios.get('http://localhost:7000/reservation');
+      setReservations(response.data);
     } catch (error) {
       console.log(error);
     }
-  }
+  }, []);
+
   useEffect(() => {
     getAllReservations();
   }, []);
@@ -50,6 +61,17 @@ function App() {
           path="/reservation"
           element={
             <Reservation
+              reservation={reservation}
+              reservations={reservations}
+              setReservation={setReservation}
+              getAllReservations={getAllReservations}
+            />
+          }
+        />
+        <Route
+          path="/reservation/admin"
+          element={
+            <ListAdminReservation
               reservation={reservation}
               reservations={reservations}
               setReservation={setReservation}

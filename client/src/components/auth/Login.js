@@ -3,15 +3,12 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Card, Form, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import jwt_decode from 'jwt-decode';
 import Swal from 'sweetalert2';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
-  let decoded;
-  let token;
 
   async function handleLogin(e) {
     try {
@@ -20,6 +17,8 @@ const Login = () => {
         email,
         password,
       });
+      console.log(res.data);
+
       if (res.status === 200) {
         localStorage.setItem('token', res.data.token);
         navigate('/home');

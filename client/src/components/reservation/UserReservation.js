@@ -3,14 +3,9 @@ import axios from 'axios';
 import { Table, Button, Form, InputGroup, FormControl } from 'react-bootstrap';
 import { FiCalendar, FiMapPin } from 'react-icons/fi';
 import vehicles from '../../data/vehicleList';
-import { jwtDecode } from 'jwt-decode';
+import { useNavigate } from 'react-router-dom';
 
-const ListReservation = ({
-  reservation,
-  setReservation,
-  reservations,
-  getAllReservations,
-}) => {
+const UserReservation = ({ reservation, getAllReservations }) => {
   const [isEdit, setIsEdit] = useState(false);
   const [updatedValue, setUpdatedValue] = useState({
     model: reservation.model,
@@ -19,25 +14,22 @@ const ListReservation = ({
     pickupdate: reservation.pickupdate,
     dropoffdate: reservation.dropoffdate,
     desc: reservation.desc,
-    owner: reservation.owner,
   });
   const [id, setId] = useState(null);
-  const [ownerReservationIds, setOwnerReservationIds] = useState({});
   const [currentReservation, setCurrentReservation] = useState({});
-  let token = localStorage.getItem('token');
-  let decoded = jwtDecode(token);
+  const [reservations, setReservations] = useState([]);
+  const navigate = useNavigate();
 
-  function filter() {
-    let ownerReservationIds = reservations
-      .filter((reservation) => reservation.owner._id === decoded.id)
-      .map((reservation) => reservation._id);
-    console.log('ids', ownerReservationIds);
-    setOwnerReservationIds(ownerReservationIds);
-  }
+  const showDetails = (id) => {
+    navigate(`/reservation/${id}`);
+  };
 
   useEffect(() => {
-    filter();
-  }, [reservation, decoded.id]);
+    getAllReservations().then((resp) => {
+      setReservations(resp.data);
+    });
+  }, [reservations]);
+
   // DELETE
   function deleteReservation(id) {
     try {
@@ -90,7 +82,6 @@ const ListReservation = ({
           pickupdate: updatedValue.pickupdate,
           dropoffdate: updatedValue.dropoffdate,
           desc: updatedValue.desc,
-          // owner: updatedValue.owner,
         })
         .then((res) => console.log(res.data))
         .then(() => getAllReservations())
@@ -120,50 +111,48 @@ const ListReservation = ({
                   <th>Description</th>
                   <th>Delete</th>
                   <th>Update</th>
-                  <th>Owner</th>
                 </tr>
               </thead>
               <tbody>
-                {reservations
-                  .filter((reservation) => reservation.owner._id === decoded.id)
-                  .map((reservation, index) => (
-                    <tr key={index} className="cursor-hand">
-                      <td>{index + 1}</td>
-                      <td>{reservation.model}</td>
-                      <td>
-                        {reservation.pickupplace}
-                        <br />
-                        {reservation.pickupdate}
-                      </td>
-                      <td>
-                        {reservation.dropoffplace}
-                        <br />
-                        {reservation.dropoffdate}
-                      </td>
-                      <td>{reservation.desc}</td>
-
-                      <td>
-                        <Button
-                          variant="danger"
-                          onClick={() => deleteReservation(reservation._id)}
-                        >
-                          Delete
-                        </Button>
-                      </td>
-                      <td>
-                        <Button
-                          variant="warning"
-                          onClick={() =>
-                            updateReservation(reservation._id, reservation)
-                          }
-                        >
-                          Update
-                        </Button>
-                      </td>
-
-                      <td>{reservation.owner.email}</td>
-                    </tr>
-                  ))}
+                {reservations.map((reservation, index) => (
+                  <tr
+                    key={index}
+                    onClick={() => showDetails(reservation.id)}
+                    className="cursor-hand"
+                  >
+                    <td>{index + 1}</td>
+                    <td>{reservation.model}</td>
+                    <td>
+                      {reservation.pickupplace}
+                      <br />
+                      {reservation.pickupdate}
+                    </td>
+                    <td>
+                      {reservation.dropoffplace}
+                      <br />
+                      {reservation.dropoffdate}
+                    </td>
+                    <td>{reservation.desc}</td>
+                    <td>
+                      <Button
+                        variant="danger"
+                        onClick={() => deleteReservation(reservation._id)}
+                      >
+                        Delete
+                      </Button>
+                    </td>
+                    <td>
+                      <Button
+                        variant="warning"
+                        onClick={() =>
+                          updateReservation(reservation._id, reservation)
+                        }
+                      >
+                        Update
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </Table>
           </div>
@@ -315,4 +304,4 @@ const ListReservation = ({
   );
 };
 
-export default ListReservation;
+export default UserReservation;

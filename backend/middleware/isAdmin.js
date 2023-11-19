@@ -4,7 +4,7 @@ const isAdmin = (req, res, next) => {
   if (req.role === 'admin' && isAdmin) {
     next();
   } else {
-    res.status(403).json({ error: 'Erişim engellendi. Yönetici değilsiniz.' });
+    res.status(403).json({ error: 'Access denied. You are not a manager.' });
   }
 };
 

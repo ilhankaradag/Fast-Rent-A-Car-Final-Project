@@ -5,7 +5,7 @@ import { FiCalendar, FiMapPin } from 'react-icons/fi';
 import vehicles from '../../data/vehicleList';
 import { jwtDecode } from 'jwt-decode';
 
-const ListReservation = ({
+const ListAdminReservation = ({
   reservation,
   setReservation,
   reservations,
@@ -22,22 +22,10 @@ const ListReservation = ({
     owner: reservation.owner,
   });
   const [id, setId] = useState(null);
-  const [ownerReservationIds, setOwnerReservationIds] = useState({});
   const [currentReservation, setCurrentReservation] = useState({});
   let token = localStorage.getItem('token');
   let decoded = jwtDecode(token);
 
-  function filter() {
-    let ownerReservationIds = reservations
-      .filter((reservation) => reservation.owner._id === decoded.id)
-      .map((reservation) => reservation._id);
-    console.log('ids', ownerReservationIds);
-    setOwnerReservationIds(ownerReservationIds);
-  }
-
-  useEffect(() => {
-    filter();
-  }, [reservation, decoded.id]);
   // DELETE
   function deleteReservation(id) {
     try {
@@ -124,46 +112,44 @@ const ListReservation = ({
                 </tr>
               </thead>
               <tbody>
-                {reservations
-                  .filter((reservation) => reservation.owner._id === decoded.id)
-                  .map((reservation, index) => (
-                    <tr key={index} className="cursor-hand">
-                      <td>{index + 1}</td>
-                      <td>{reservation.model}</td>
-                      <td>
-                        {reservation.pickupplace}
-                        <br />
-                        {reservation.pickupdate}
-                      </td>
-                      <td>
-                        {reservation.dropoffplace}
-                        <br />
-                        {reservation.dropoffdate}
-                      </td>
-                      <td>{reservation.desc}</td>
+                {reservations.map((reservation, index) => (
+                  <tr key={index} className="cursor-hand">
+                    <td>{index + 1}</td>
+                    <td>{reservation.model}</td>
+                    <td>
+                      {reservation.pickupplace}
+                      <br />
+                      {reservation.pickupdate}
+                    </td>
+                    <td>
+                      {reservation.dropoffplace}
+                      <br />
+                      {reservation.dropoffdate}
+                    </td>
+                    <td>{reservation.desc}</td>
 
-                      <td>
-                        <Button
-                          variant="danger"
-                          onClick={() => deleteReservation(reservation._id)}
-                        >
-                          Delete
-                        </Button>
-                      </td>
-                      <td>
-                        <Button
-                          variant="warning"
-                          onClick={() =>
-                            updateReservation(reservation._id, reservation)
-                          }
-                        >
-                          Update
-                        </Button>
-                      </td>
+                    <td>
+                      <Button
+                        variant="danger"
+                        onClick={() => deleteReservation(reservation._id)}
+                      >
+                        Delete
+                      </Button>
+                    </td>
+                    <td>
+                      <Button
+                        variant="warning"
+                        onClick={() =>
+                          updateReservation(reservation._id, reservation)
+                        }
+                      >
+                        Update
+                      </Button>
+                    </td>
 
-                      <td>{reservation.owner.email}</td>
-                    </tr>
-                  ))}
+                    <td>{reservation.owner.email}</td>
+                  </tr>
+                ))}
               </tbody>
             </Table>
           </div>
@@ -315,4 +301,4 @@ const ListReservation = ({
   );
 };
 
-export default ListReservation;
+export default ListAdminReservation;

@@ -17,7 +17,7 @@ const {
 
 const isAdmin = require('../middleware/isAdmin');
 //CREATE
-router.post('/create', createReservation);
+router.post('/create', verifyToken, createReservation);
 //UPDATE
 router.put('/:id', updateReservation);
 //DELETE

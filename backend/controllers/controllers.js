@@ -7,7 +7,7 @@ require('dotenv').config();
 
 const getAllReservation = async (req, res) => {
   try {
-    let reservations = await Reservation.find();
+    let reservations = await Reservation.find().populate('owner', 'email');
     res.status(200).send(reservations);
   } catch (error) {
     console.log(error);
@@ -27,10 +27,21 @@ const getReservation = async (req, res) => {
 };
 
 const createReservation = async (req, res) => {
-  const newReservation = new Reservation(req.body);
   try {
-    const savedReservation = await newReservation.save();
-    res.status(200).json(savedReservation);
+    let owner = req.user.id;
+    let { model, pickupplace, dropoffplace, pickupdate, dropoffdate, desc } =
+      req.body;
+    let newReservation = {
+      model,
+      pickupplace,
+      dropoffplace,
+      pickupdate,
+      dropoffdate,
+      desc,
+      owner,
+    };
+    let reservation = await Reservation.create(newReservation);
+    res.status(200).json(reservation);
   } catch (error) {
     res.status(500).send({ msg: 'server error from create controllers' });
   }
@@ -99,7 +110,7 @@ const login = async (req, res) => {
           },
           process.env.TOKEN_KEY,
         );
-        res.status(200).send({ msg: 'Login successful', token });
+        res.status(200).send({ msg: 'Login successful,Welcome !', token });
       }
     } else {
       return res
