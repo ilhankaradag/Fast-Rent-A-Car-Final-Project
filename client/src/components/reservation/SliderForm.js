@@ -6,6 +6,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import vehicles from '../../data/vehicleList';
 import { FiCalendar, FiMapPin } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
+import { MdOutlineDescription } from 'react-icons/md';
 
 const SliderForm = ({ getAllReservations }) => {
   const navigate = useNavigate();
@@ -95,7 +96,7 @@ const SliderForm = ({ getAllReservations }) => {
 
         <InputGroup className="mb-3">
           <InputGroup.Text id="basic-addon1" style={{ flex: 1 }}>
-            <FiMapPin />
+            <FiCalendar />
             &nbsp;Pick up
           </InputGroup.Text>
           <FormControl
@@ -121,7 +122,7 @@ const SliderForm = ({ getAllReservations }) => {
 
         <InputGroup className="mb-3">
           <InputGroup.Text id="basic-addon1" style={{ flex: 1 }}>
-            <FiCalendar />
+            <MdOutlineDescription />
             &nbsp;Description
           </InputGroup.Text>
           <FormControl

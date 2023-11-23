@@ -12,6 +12,7 @@ import Login from './components/auth/Login';
 import Register from './components/auth/Register';
 import { useState, useEffect, useCallback } from 'react';
 import ListAdminReservation from './components/reservation/ListAdminReservation';
+import HomePage from './components/home/HomePage';
 
 function App() {
   const [reservations, setReservations] = useState([]);
@@ -56,7 +57,7 @@ function App() {
       <TopBar />
       <MenuBar />
       <Routes>
-        <Route path="/home" element={<Home />} />
+        <Route path="/home" element={<HomePage />} />
         <Route
           path="/reservation"
           element={
