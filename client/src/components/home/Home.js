@@ -16,6 +16,7 @@ const Home = () => {
         shadows
         camera={{ fov: 45 }}
         style={{
+          border: '2px solid black',
           position: 'absolute',
           height: '70%',
           width: '70%',

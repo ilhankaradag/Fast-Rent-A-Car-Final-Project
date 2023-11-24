@@ -13,6 +13,7 @@ import Register from './components/auth/Register';
 import { useState, useEffect, useCallback } from 'react';
 import ListAdminReservation from './components/reservation/ListAdminReservation';
 import HomePage from './components/home/HomePage';
+import Footer from './components/common/Footer';
 
 function App() {
   const [reservations, setReservations] = useState([]);
@@ -85,6 +86,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>
+      <Footer />
     </BrowserRouter>
   );
 }
