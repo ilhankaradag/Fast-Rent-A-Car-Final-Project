@@ -35,40 +35,42 @@ const Login = () => {
 
   return (
     <div className="home ">
-      <div className="login">
-        <Card border="primary" style={{ width: '18rem' }}>
-          <Card.Header>
-            <h1>Login Form</h1>
-          </Card.Header>
-          <Card.Body>
-            <Form onSubmit={handleLogin}>
-              <Form.Label htmlFor="inputEmail" className="mt-2">
-                Email:
-              </Form.Label>
-              <Form.Control
-                id="email"
-                type="email"
-                value={email}
-                placeholder="Enter your email"
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <Form.Label htmlFor="inputPassword" className="mt-2">
-                Password:
-              </Form.Label>
-              <Form.Control
-                id="pass"
-                type="password"
-                placeholder="Enter your password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <div className="mt-2">
-                <Button type="submit">Login</Button>
-              </div>
-            </Form>
-          </Card.Body>
-          <Link to="/register">Create new user</Link>
-        </Card>
+      <div className="homepage ">
+        <div className="login">
+          <Card border="primary" style={{ width: '18rem' }}>
+            <Card.Header>
+              <h1>Login Form</h1>
+            </Card.Header>
+            <Card.Body>
+              <Form onSubmit={handleLogin}>
+                <Form.Label htmlFor="inputEmail" className="mt-2">
+                  Email:
+                </Form.Label>
+                <Form.Control
+                  id="email"
+                  type="email"
+                  value={email}
+                  placeholder="Enter your email"
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+                <Form.Label htmlFor="inputPassword" className="mt-2">
+                  Password:
+                </Form.Label>
+                <Form.Control
+                  id="pass"
+                  type="password"
+                  placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <div className="mt-2">
+                  <Button type="submit">Login</Button>
+                </div>
+              </Form>
+            </Card.Body>
+            <Link to="/register">Create new user</Link>
+          </Card>
+        </div>
       </div>
     </div>
   );

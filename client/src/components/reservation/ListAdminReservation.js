@@ -89,7 +89,8 @@ const ListAdminReservation = ({
     setIsEdit(false);
   }
   return (
-    <div>
+    <div className="home">
+      <h1>Admin Reservation List</h1>
       {!isEdit ? (
         <div className="mt-4">
           <div className="text-center">
