@@ -23,8 +23,8 @@ const TopBar = () => {
     if (token) {
       decoded = jwtDecode(token);
     }
-    console.log('Token:', token);
-    console.log('Decoded:', decoded.email);
+    // console.log('Token:', token);
+    // console.log('Decoded:', decoded.email);
   } catch (error) {
     console.log('Invalid token', error);
   }

@@ -7,6 +7,7 @@ import {
   RiShape2Fill,
   RiInformationLine,
   RiHeadphoneLine,
+  RiAdminLine,
 } from 'react-icons/ri';
 import { GrUserAdmin } from 'react-icons/gr';
 import { Link } from 'react-router-dom';
@@ -21,8 +22,8 @@ const MenuBar = () => {
     if (token) {
       decoded = jwtDecode(token);
     }
-    console.log('Token:', token);
-    console.log('Decoded:', decoded.role);
+    // console.log('Token:', token);
+    // console.log('Decoded:', decoded.role);
   } catch (error) {
     console.log('Invalid token', error);
   }
@@ -98,6 +99,9 @@ const MenuBar = () => {
                 </Nav.Link>
                 <Nav.Link href="/reservation/admin">
                   <GrUserAdmin /> Reservation List
+                </Nav.Link>
+                <Nav.Link href="/users">
+                  <RiAdminLine /> Users List
                 </Nav.Link>
                 <Nav.Link href="/about">
                   <RiInformationLine /> About Us

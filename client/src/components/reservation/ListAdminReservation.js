@@ -147,7 +147,6 @@ const ListAdminReservation = ({
                         Update
                       </Button>
                     </td>
-
                     <td>{reservation.owner.email}</td>
                   </tr>
                 ))}

@@ -14,9 +14,11 @@ import { useState, useEffect, useCallback } from 'react';
 import ListAdminReservation from './components/reservation/ListAdminReservation';
 import HomePage from './components/home/HomePage';
 import Footer from './components/common/Footer';
+import UserList from './components/adminDashboard/UserList';
 
 function App() {
   const [reservations, setReservations] = useState([]);
+  const [users, setUsers] = useState([]);
   const [reservation, setReservation] = useState({
     model: '',
     pickupplace: '',
@@ -27,19 +29,6 @@ function App() {
     // owner: '',
   });
 
-  // function getAllReservations() {
-  //   try {
-  //     axios
-  //       .get('http://localhost:7000/reservation')
-  //       .then((res) => {
-  //         setReservations(res.data);
-  //         console.log('ALL', res.data);
-  //       })
-  //       .catch((err) => console.log(err));
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
   const getAllReservations = useCallback(async () => {
     try {
       const response = await axios.get('http://localhost:7000/reservation');
@@ -49,8 +38,23 @@ function App() {
     }
   }, []);
 
+  function getAllUsers() {
+    try {
+      axios
+        .get('http://localhost:7000/users')
+        .then((res) => {
+          setUsers(res.data);
+          console.log('ALL', res.data);
+        })
+        .catch((err) => console.log(err));
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
     getAllReservations();
+    getAllUsers();
   }, []);
 
   return (
@@ -78,6 +82,16 @@ function App() {
               reservations={reservations}
               setReservation={setReservation}
               getAllReservations={getAllReservations}
+            />
+          }
+        />
+        <Route
+          path="/users"
+          element={
+            <UserList
+              getAllUsers={getAllUsers}
+              users={users}
+              setUsers={setUsers}
             />
           }
         />
