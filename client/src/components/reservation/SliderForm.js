@@ -35,10 +35,9 @@ const SliderForm = ({ getAllReservations }) => {
         .post('http://localhost:7000/create', reservation, {
           headers: { Authorization: `Bearer ${token}` },
         })
+        .then(navigate('/reservation/user'))
         .then((res) => {
-          console.log(res.data);
           getAllReservations();
-          navigate('/');
         })
         .catch((err) => {
           console.log(err);

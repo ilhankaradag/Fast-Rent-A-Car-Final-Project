@@ -1,7 +1,7 @@
 import React from 'react';
 import { jwtDecode } from 'jwt-decode';
-import { Container, Image, Nav, Navbar } from 'react-bootstrap';
-import logo from '../../assets/img/logo.png';
+import { Container, Image, Nav, Navbar, NavDropdown } from 'react-bootstrap';
+import logo from '../../assets/img/logo1.png';
 import {
   RiHome5Line,
   RiShape2Fill,
@@ -9,6 +9,7 @@ import {
   RiHeadphoneLine,
   RiAdminLine,
 } from 'react-icons/ri';
+import { BsListCheck } from 'react-icons/bs';
 import { GrUserAdmin } from 'react-icons/gr';
 import { Link } from 'react-router-dom';
 
@@ -34,7 +35,7 @@ const MenuBar = () => {
         <Navbar expand="md" className="menubar">
           <Container>
             <Navbar.Brand as={Link} to="/home">
-              <Image src={logo} width={'50px'} />
+              <Image src={logo} width={'150px'} />
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
@@ -56,11 +57,11 @@ const MenuBar = () => {
           </Container>
         </Navbar>
       )}
-      {token && decoded.role !== 'admin' ? (
+      {token && decoded.role === 'user' ? (
         <Navbar expand="md" className="menubar">
           <Container>
             <Navbar.Brand as={Link} to="/home">
-              <Image src={logo} width={'50px'} />
+              <Image src={logo} width={'150px'} />
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
@@ -70,6 +71,9 @@ const MenuBar = () => {
                 </Nav.Link>
                 <Nav.Link href="/reservation">
                   <RiShape2Fill /> Reservation
+                </Nav.Link>
+                <Nav.Link href="/reservation/user">
+                  <BsListCheck /> Reservation User List
                 </Nav.Link>
                 <Nav.Link href="/about">
                   <RiInformationLine /> About Us
@@ -86,7 +90,7 @@ const MenuBar = () => {
         <Navbar expand="md" className="menubar">
           <Container>
             <Navbar.Brand as={Link} to="/home">
-              <Image src={logo} width={'50px'} />
+              <Image src={logo} width={'150px'} />
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
@@ -97,12 +101,24 @@ const MenuBar = () => {
                 <Nav.Link href="/reservation">
                   <RiShape2Fill /> Reservation
                 </Nav.Link>
-                <Nav.Link href="/reservation/admin">
-                  <GrUserAdmin /> Reservation List
+                <Nav.Link href="/reservation/user">
+                  <BsListCheck /> Reservation User List
+                </Nav.Link>
+                <NavDropdown title="Admin" id="basic-nav-dropdown">
+                  <NavDropdown.Item href="/reservation/admin">
+                    <GrUserAdmin /> Reservation Admin List
+                  </NavDropdown.Item>
+                  <NavDropdown.Divider />
+                  <NavDropdown.Item href="/users">
+                    <RiAdminLine /> Users List
+                  </NavDropdown.Item>
+                </NavDropdown>
+                {/* <Nav.Link href="/reservation/admin">
+                  <GrUserAdmin /> Reservation Admin List
                 </Nav.Link>
                 <Nav.Link href="/users">
                   <RiAdminLine /> Users List
-                </Nav.Link>
+                </Nav.Link> */}
                 <Nav.Link href="/about">
                   <RiInformationLine /> About Us
                 </Nav.Link>

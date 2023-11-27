@@ -4,6 +4,7 @@ import { Table, Button, Form, InputGroup, FormControl } from 'react-bootstrap';
 import { FiCalendar, FiMapPin } from 'react-icons/fi';
 import vehicles from '../../data/vehicleList';
 import { jwtDecode } from 'jwt-decode';
+import EditReservation from './EditReservation';
 
 const ListReservation = ({
   reservation,
@@ -12,18 +13,9 @@ const ListReservation = ({
   getAllReservations,
 }) => {
   const [isEdit, setIsEdit] = useState(false);
-  const [updatedValue, setUpdatedValue] = useState({
-    model: reservation.model,
-    pickupplace: reservation.pickupplace,
-    dropoffplace: reservation.dropoffplace,
-    pickupdate: reservation.pickupdate,
-    dropoffdate: reservation.dropoffdate,
-    desc: reservation.desc,
-    owner: reservation.owner,
-  });
   const [id, setId] = useState(null);
   const [ownerReservationIds, setOwnerReservationIds] = useState({});
-  const [currentReservation, setCurrentReservation] = useState({});
+  const [currentReservation, setCurrentReservation] = useState(reservations);
   let token = localStorage.getItem('token');
   let decoded = jwtDecode(token);
 
@@ -34,6 +26,10 @@ const ListReservation = ({
     console.log('ids', ownerReservationIds);
     setOwnerReservationIds(ownerReservationIds);
   }
+
+  console.log(reservations);
+  console.log(reservation);
+  console.log(currentReservation.model);
 
   useEffect(() => {
     filter();
@@ -63,15 +59,6 @@ const ListReservation = ({
     }
   }
 
-  // UPDATE
-  function handleInputChange(e) {
-    setUpdatedValue({
-      ...updatedValue,
-      [e.target.name]: e.target.value,
-    });
-    console.log(updatedValue);
-  }
-
   function updateReservation(id, reservation) {
     console.log(id);
     setIsEdit(true);
@@ -79,27 +66,6 @@ const ListReservation = ({
     setCurrentReservation(reservation);
   }
 
-  function saveChanges() {
-    try {
-      console.log('this is the id', id);
-      axios
-        .put(`http://localhost:7000/${id}`, {
-          model: updatedValue.model,
-          pickupplace: updatedValue.pickupplace,
-          dropoffplace: updatedValue.dropoffplace,
-          pickupdate: updatedValue.pickupdate,
-          dropoffdate: updatedValue.dropoffdate,
-          desc: updatedValue.desc,
-          // owner: updatedValue.owner,
-        })
-        .then((res) => console.log(res.data))
-        .then(() => getAllReservations())
-        .catch((error) => console.log(error));
-    } catch (error) {
-      console.log(error);
-    }
-    setIsEdit(false);
-  }
   return (
     <div>
       {!isEdit ? (
@@ -169,146 +135,18 @@ const ListReservation = ({
           </div>
         </div>
       ) : (
-        <div className="text-center mt-4 ">
-          <Form className="form1">
-            <Form.Select
-              size="lg"
-              className="mb-3"
-              type="text"
-              name="model"
-              onChange={(e) => handleInputChange(e)}
-              value={updatedValue.model}
-              onFocus={() =>
-                setCurrentReservation({
-                  ...setUpdatedValue,
-                  model: '',
-                })
-              }
-            >
-              <option>Select a car</option>
-              {vehicles.map((vehicle) => (
-                <option value={vehicle.model} key={vehicle.id}>
-                  {vehicle.model}
-                </option>
-              ))}
-            </Form.Select>
-
-            <InputGroup className="mb-3">
-              <InputGroup.Text id="basic-addon1" style={{ flex: 1 }}>
-                <FiMapPin />
-                &nbsp;Pick up
-              </InputGroup.Text>
-              <FormControl
-                style={{ flex: 2 }}
-                type="text"
-                name="pickupplace"
-                onChange={(e) => handleInputChange(e)}
-                value={updatedValue.pickupplace}
-                onFocus={() =>
-                  setCurrentReservation({
-                    ...setUpdatedValue,
-                    pickupplace: '',
-                  })
-                }
-                placeholder="Enter a place"
+        <div className="text-center mt-4">
+          {reservations.map((reservation, index) =>
+            id === reservation._id ? (
+              <EditReservation
+                getAllReservations={getAllReservations}
+                reservation={reservation}
+                setId={setId}
+                id={id}
+                setIsEdit={setIsEdit}
               />
-            </InputGroup>
-
-            <InputGroup className="mb-3">
-              <InputGroup.Text id="basic-addon1" style={{ flex: 1 }}>
-                <FiMapPin />
-                &nbsp;Drop off
-              </InputGroup.Text>
-              <FormControl
-                type="text"
-                name="dropoffplace"
-                onChange={(e) => handleInputChange(e)}
-                value={updatedValue.dropoffplace}
-                onFocus={() =>
-                  setCurrentReservation({
-                    ...setUpdatedValue,
-                    dropoffplace: '',
-                  })
-                }
-                placeholder="Enter a place"
-                style={{ flex: 2 }}
-              />
-            </InputGroup>
-
-            <InputGroup className="mb-3">
-              <InputGroup.Text id="basic-addon1" style={{ flex: 1 }}>
-                <FiMapPin />
-                &nbsp;Pick up
-              </InputGroup.Text>
-              <FormControl
-                type="date"
-                name="pickupdate"
-                style={{ flex: 2 }}
-                onChange={(e) => handleInputChange(e)}
-                value={updatedValue.pickupdate}
-                onFocus={() =>
-                  setCurrentReservation({
-                    ...setUpdatedValue,
-                    pickupdate: '',
-                  })
-                }
-              />
-            </InputGroup>
-
-            <InputGroup className="mb-3">
-              <InputGroup.Text id="basic-addon1" style={{ flex: 1 }}>
-                <FiCalendar />
-                &nbsp;Drop off
-              </InputGroup.Text>
-              <FormControl
-                type="date"
-                name="dropoffdate"
-                onChange={(e) => handleInputChange(e)}
-                value={updatedValue.dropoffdate}
-                onFocus={() =>
-                  setCurrentReservation({
-                    ...setUpdatedValue,
-                    dropoffdate: '',
-                  })
-                }
-                style={{ flex: 2 }}
-              />
-            </InputGroup>
-
-            <InputGroup className="mb-3">
-              <InputGroup.Text id="basic-addon1" style={{ flex: 1 }}>
-                <FiCalendar />
-                &nbsp;Description
-              </InputGroup.Text>
-              <FormControl
-                type="text"
-                name="desc"
-                onChange={(e) => handleInputChange(e)}
-                value={updatedValue.desc}
-                onFocus={() =>
-                  setCurrentReservation({
-                    ...setUpdatedValue,
-                    desc: '',
-                  })
-                }
-                style={{ flex: 2 }}
-                placeholder="Description...."
-              />
-            </InputGroup>
-          </Form>
-
-          <div>
-            <Button
-              variant="primary"
-              className="m-1"
-              onClick={() => saveChanges()}
-            >
-              Save
-            </Button>
-            <Button variant="danger" onClick={() => setIsEdit(false)}>
-              Cancel
-            </Button>
-          </div>
+            ) : null,
+          )}
         </div>
       )}
     </div>

@@ -15,17 +15,18 @@ import ListAdminReservation from './components/reservation/ListAdminReservation'
 import HomePage from './components/home/HomePage';
 import Footer from './components/common/Footer';
 import UserList from './components/adminDashboard/UserList';
+import ListReservation from './components/reservation/ListReservation';
 
 function App() {
   const [reservations, setReservations] = useState([]);
   const [users, setUsers] = useState([]);
   const [reservation, setReservation] = useState({
-    model: '',
-    pickupplace: '',
-    dropoffplace: '',
-    pickupdate: '',
-    dropoffdate: '',
-    desc: '',
+    // model: '',
+    // pickupplace: '',
+    // dropoffplace: '',
+    // pickupdate: '',
+    // dropoffdate: '',
+    // desc: '',
     // owner: '',
   });
 
@@ -78,6 +79,17 @@ function App() {
           path="/reservation/admin"
           element={
             <ListAdminReservation
+              reservation={reservation}
+              reservations={reservations}
+              setReservation={setReservation}
+              getAllReservations={getAllReservations}
+            />
+          }
+        />
+        <Route
+          path="/reservation/user"
+          element={
+            <ListReservation
               reservation={reservation}
               reservations={reservations}
               setReservation={setReservation}

@@ -81,8 +81,7 @@ const TopBar = () => {
             <Row>
               <Col xs={7}>
                 <FiPhoneCall size={16} />
-                <span className="d-none d-md-inline">CALL US</span> +31 6 235
-                987 95
+                <span className="d-none d-md-inline">CALL US</span> +31 62222 22
               </Col>
               <Col xs={5}>
                 <ul>
