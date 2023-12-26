@@ -15,6 +15,7 @@ import ListAdminReservation from './components/reservation/ListAdminReservation'
 import HomePage from './components/home/HomePage';
 import Footer from './components/common/Footer';
 import UserList from './components/adminDashboard/UserList';
+import Vehicles from './components/vehicles/Vehicles';
 import ListReservation from './components/reservation/ListReservation';
 
 function App() {
@@ -108,6 +109,7 @@ function App() {
           }
         />
         <Route path="/about" element={<About />} />
+        <Route path="/vehicles" element={<Vehicles />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

@@ -46,6 +46,9 @@ const MenuBar = () => {
                 {/* <Nav.Link href="/reservation">
                   <RiShape2Fill /> Reservation
                 </Nav.Link> */}
+                <Nav.Link href="/vehicles">
+                  <RiInformationLine /> Vehicles
+                </Nav.Link>
                 <Nav.Link href="/about">
                   <RiInformationLine /> About Us
                 </Nav.Link>
@@ -71,6 +74,9 @@ const MenuBar = () => {
                 </Nav.Link>
                 <Nav.Link href="/reservation">
                   <RiShape2Fill /> Reservation
+                </Nav.Link>
+                <Nav.Link href="/vehicles">
+                  <RiInformationLine /> Vehicles
                 </Nav.Link>
                 <Nav.Link href="/reservation/user">
                   <BsListCheck /> Reservation User List
@@ -100,6 +106,9 @@ const MenuBar = () => {
                 </Nav.Link>
                 <Nav.Link href="/reservation">
                   <RiShape2Fill /> Reservation
+                </Nav.Link>
+                <Nav.Link href="/vehicles">
+                  <RiInformationLine /> Vehicles
                 </Nav.Link>
                 <Nav.Link href="/reservation/user">
                   <BsListCheck /> Reservation User List

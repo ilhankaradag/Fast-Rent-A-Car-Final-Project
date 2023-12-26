@@ -1,144 +1,163 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
 import axios from 'axios';
-import { Form, FormControl } from 'react-bootstrap';
-import Button from 'react-bootstrap/Button';
-import InputGroup from 'react-bootstrap/InputGroup';
-import vehicles from '../../data/vehicleList';
-import { FiCalendar, FiMapPin } from 'react-icons/fi';
 import { useNavigate } from 'react-router-dom';
+import { FiCalendar, FiMapPin } from 'react-icons/fi';
 import { MdOutlineDescription } from 'react-icons/md';
+import { FormControl, InputGroup, Button } from 'react-bootstrap';
+import vehicles from '../../data/vehicleList';
 
 const SliderForm = ({ getAllReservations }) => {
   const navigate = useNavigate();
   let token = localStorage.getItem('token');
 
-  const [reservation, setReservation] = useState({
-    model: '',
-    pickupplace: '',
-    dropoffplace: '',
-    pickupdate: '',
-    dropoffdate: '',
-    desc: '',
-    // owner: '',
+  const validationSchema = Yup.object().shape({
+    model: Yup.string().required('Car model is required'),
+    pickupplace: Yup.string().required('Pick up place is required'),
+    dropoffplace: Yup.string().required('Drop off place is required'),
+    pickupdate: Yup.date().required('Pick up date is required'),
+    dropoffdate: Yup.date().required('Drop off date is required'),
+    desc: Yup.string(),
   });
 
-  const handleInputChange = (e, fieldName) => {
-    setReservation({
-      ...reservation,
-      [fieldName]: e.target.value,
-    });
-  };
-
-  function addNewReservation(e) {
+  const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      axios
-        .post('http://localhost:7000/create', reservation, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-        .then(navigate('/reservation/user'))
-        .then((res) => {
-          getAllReservations();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      await axios.post('http://localhost:7000/create', values, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      navigate('/reservation/user');
+      getAllReservations();
     } catch (error) {
       console.log(error);
     }
-  }
+    setSubmitting(false);
+  };
 
   return (
-    <div className="formContainer mt-4" border="secondary">
-      <Form className="form1" onSubmit={addNewReservation}>
-        <Form.Select
-          size="lg"
-          className="mb-3"
-          type="text"
-          name="model"
-          onChange={(e) => handleInputChange(e, 'model')}
-        >
-          <option>Select a car</option>
-          {vehicles.map((vehicle) => (
-            <option value={vehicle.model} key={vehicle.id}>
-              {vehicle.model}
-            </option>
-          ))}
-        </Form.Select>
+    <div className="formContainer mt-4">
+      <Formik
+        initialValues={{
+          model: '',
+          pickupplace: '',
+          dropoffplace: '',
+          pickupdate: '',
+          dropoffdate: '',
+          desc: '',
+        }}
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}
+      >
+        {() => (
+          <Form>
+            {/* Car Model */}
+            <div className="mb-3">
+              <Field as="select" name="model" className="form-control">
+                <option value="" disabled>
+                  Select a car
+                </option>
+                {vehicles.map((vehicle) => (
+                  <option value={vehicle.model} key={vehicle.id}>
+                    {vehicle.model}
+                  </option>
+                ))}
+              </Field>
+              <ErrorMessage
+                name="model"
+                component="div"
+                className="text-danger"
+              />
+            </div>
 
-        <InputGroup className="mb-3">
-          <InputGroup.Text id="basic-addon1" style={{ flex: 1 }}>
-            <FiMapPin />
-            &nbsp;Pick up
-          </InputGroup.Text>
-          <FormControl
-            style={{ flex: 2 }}
-            type="text"
-            name="pickupplace"
-            onChange={(e) => handleInputChange(e, 'pickupplace')}
-            placeholder="Enter a place"
-          />
-        </InputGroup>
+            {/* Pick up place */}
+            <InputGroup className="mb-3">
+              <InputGroup.Text id="basic-addon1">
+                <FiMapPin />
+                &nbsp;Pick up
+              </InputGroup.Text>
+              <Field
+                type="text"
+                name="pickupplace"
+                as={FormControl}
+                placeholder="Enter a place"
+              />
+              <ErrorMessage
+                name="pickupplace"
+                component="div"
+                className="text-danger"
+              />
+            </InputGroup>
 
-        <InputGroup className="mb-3">
-          <InputGroup.Text id="basic-addon1" style={{ flex: 1 }}>
-            <FiMapPin />
-            &nbsp;Drop off
-          </InputGroup.Text>
-          <FormControl
-            type="text"
-            name="dropoffplace"
-            onChange={(e) => handleInputChange(e, 'dropoffplace')}
-            placeholder="Enter a place"
-            style={{ flex: 2 }}
-          />
-        </InputGroup>
+            {/* Drop off place */}
+            <InputGroup className="mb-3">
+              <InputGroup.Text id="basic-addon2">
+                <FiMapPin />
+                &nbsp;Drop off
+              </InputGroup.Text>
+              <Field
+                type="text"
+                name="dropoffplace"
+                as={FormControl}
+                placeholder="Enter a place"
+              />
+              <ErrorMessage
+                name="dropoffplace"
+                component="div"
+                className="text-danger"
+              />
+            </InputGroup>
 
-        <InputGroup className="mb-3">
-          <InputGroup.Text id="basic-addon1" style={{ flex: 1 }}>
-            <FiCalendar />
-            &nbsp;Pick up
-          </InputGroup.Text>
-          <FormControl
-            type="date"
-            name="pickupdate"
-            style={{ flex: 2 }}
-            onChange={(e) => handleInputChange(e, 'pickupdate')}
-          />
-        </InputGroup>
+            {/* Pick up date */}
+            <InputGroup className="mb-3">
+              <InputGroup.Text id="basic-addon3">
+                <FiCalendar />
+                &nbsp;Pick up
+              </InputGroup.Text>
+              <Field type="date" name="pickupdate" as={FormControl} />
+              <ErrorMessage
+                name="pickupdate"
+                component="div"
+                className="text-danger"
+              />
+            </InputGroup>
 
-        <InputGroup className="mb-3">
-          <InputGroup.Text id="basic-addon1" style={{ flex: 1 }}>
-            <FiCalendar />
-            &nbsp;Drop off
-          </InputGroup.Text>
-          <FormControl
-            type="date"
-            name="dropoffdate"
-            onChange={(e) => handleInputChange(e, 'dropoffdate')}
-            style={{ flex: 2 }}
-          />
-        </InputGroup>
+            {/* Drop off date */}
+            <InputGroup className="mb-3">
+              <InputGroup.Text id="basic-addon4">
+                <FiCalendar />
+                &nbsp;Drop off
+              </InputGroup.Text>
+              <Field type="date" name="dropoffdate" as={FormControl} />
+              <ErrorMessage
+                name="dropoffdate"
+                component="div"
+                className="text-danger"
+              />
+            </InputGroup>
 
-        <InputGroup className="mb-3">
-          <InputGroup.Text id="basic-addon1" style={{ flex: 1 }}>
-            <MdOutlineDescription />
-            &nbsp;Description
-          </InputGroup.Text>
-          <FormControl
-            type="text"
-            name="desc"
-            onChange={(e) => handleInputChange(e, 'desc')}
-            style={{ flex: 2 }}
-            placeholder="Description...."
-          />
-        </InputGroup>
+            {/* Description */}
+            <InputGroup className="mb-3">
+              <InputGroup.Text id="basic-addon5">
+                <MdOutlineDescription />
+                &nbsp;Description
+              </InputGroup.Text>
+              <Field
+                type="text"
+                name="desc"
+                as={FormControl}
+                placeholder="Description...."
+              />
+            </InputGroup>
 
-        <div className="mt-4">
-          <Button size="lg" className="w-100" type="submit">
-            CONTINUE RESERVATION
-          </Button>
-        </div>
-      </Form>
+            {/* Submit Button */}
+            <div className="mt-4">
+              <Button size="lg" className="w-100" type="submit">
+                CONTINUE RESERVATION
+              </Button>
+            </div>
+          </Form>
+        )}
+      </Formik>
     </div>
   );
 };

@@ -69,7 +69,7 @@ body {
   text-align: center;
 }
 .home h1 {
-  font-size: 70px;
+  font-size: 50px;
   font-weight: 600;
   background-image: linear-gradient(to left, #e1455d, #6e082d);
   color: transparent;
@@ -119,7 +119,7 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
   padding: 100px;
-  margin-top: 80px;
+  margin-top: 100px;
 }
 .information{
   position: absolute;
