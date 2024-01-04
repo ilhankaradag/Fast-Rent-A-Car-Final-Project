@@ -28,6 +28,11 @@ const reservationSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  status: {
+    type: String,
+    enum: ['approved  ', 'rejected', 'pending'],
+    default: 'pending',
+  },
   owner: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
 });
 

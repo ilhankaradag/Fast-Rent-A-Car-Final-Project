@@ -11,6 +11,9 @@ const ListAdminReservation = ({
   setReservation,
   reservations,
   getAllReservations,
+  users,
+  setUsers,
+  getAllUsers,
 }) => {
   const [isEdit, setIsEdit] = useState(false);
   const [updatedValue, setUpdatedValue] = useState({
@@ -108,6 +111,7 @@ const ListAdminReservation = ({
                   <th>Pick Up</th>
                   <th>Drop Off</th>
                   <th>Description</th>
+                  <th>Status</th>
                   <th>Delete</th>
                   <th>Update</th>
                   <th>Owner</th>
@@ -129,6 +133,7 @@ const ListAdminReservation = ({
                       {reservation.dropoffdate}
                     </td>
                     <td>{reservation.desc}</td>
+                    <td>{reservation.status}</td>
 
                     <td>
                       <Button
@@ -145,7 +150,7 @@ const ListAdminReservation = ({
                           updateReservation(reservation._id, reservation)
                         }
                       >
-                        Update
+                        Change Status
                       </Button>
                     </td>
                     <td>{reservation.owner.email}</td>
@@ -165,6 +170,9 @@ const ListAdminReservation = ({
                 setId={setId}
                 id={id}
                 setIsEdit={setIsEdit}
+                users={users}
+                setUsers={setUsers}
+                getAllUsers={getAllUsers}
               />
             ) : null,
           )}

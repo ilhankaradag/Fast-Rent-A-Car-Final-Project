@@ -30,7 +30,7 @@ const Login = () => {
 
       if (res.status === 200) {
         localStorage.setItem('token', res.data.token);
-        navigate('/home');
+        navigate('/');
         Swal.fire('Yes!', `${res.data.msg}`, 'success');
       }
     } catch (error) {

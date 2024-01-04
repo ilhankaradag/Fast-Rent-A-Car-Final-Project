@@ -4,7 +4,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import MenuBar from './components/common/MenuBar';
 import TopBar from './components/common/TopBar';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Home from './components/home/Home';
 import Reservation from './components/reservation/Reservation';
 import About from './components/about/About';
 import Contact from './components/contact/Contact';
@@ -64,7 +63,7 @@ function App() {
       <TopBar />
       <MenuBar />
       <Routes>
-        <Route path="/home" element={<HomePage />} />
+        <Route path="/" element={<HomePage />} />
         <Route
           path="/reservation"
           element={
@@ -84,6 +83,9 @@ function App() {
               reservations={reservations}
               setReservation={setReservation}
               getAllReservations={getAllReservations}
+              users={users}
+              setUsers={setUsers}
+              getAllUsers={getAllUsers}
             />
           }
         />
@@ -95,6 +97,9 @@ function App() {
               reservations={reservations}
               setReservation={setReservation}
               getAllReservations={getAllReservations}
+              users={users}
+              setUsers={setUsers}
+              getAllUsers={getAllUsers}
             />
           }
         />

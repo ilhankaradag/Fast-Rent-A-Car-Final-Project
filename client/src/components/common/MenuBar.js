@@ -40,7 +40,7 @@ const MenuBar = () => {
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="ms-auto">
-                <Nav.Link href="/home">
+                <Nav.Link href="/">
                   <RiHome5Line /> Home
                 </Nav.Link>
                 {/* <Nav.Link href="/reservation">
@@ -63,13 +63,13 @@ const MenuBar = () => {
       {token && decoded.role === 'user' ? (
         <Navbar expand="md" className="menubar">
           <Container>
-            <Navbar.Brand as={Link} to="/home">
+            <Navbar.Brand as={Link} to="/">
               <Image src={logo} width={'150px'} />
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="ms-auto">
-                <Nav.Link href="/home">
+                <Nav.Link href="/">
                   <RiHome5Line /> Home
                 </Nav.Link>
                 <Nav.Link href="/reservation">
@@ -95,13 +95,13 @@ const MenuBar = () => {
       {token && decoded.role === 'admin' ? (
         <Navbar expand="md" className="menubar">
           <Container>
-            <Navbar.Brand as={Link} to="/home">
+            <Navbar.Brand as={Link} to="/">
               <Image src={logo} width={'150px'} />
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse id="basic-navbar-nav">
               <Nav className="ms-auto">
-                <Nav.Link href="/home">
+                <Nav.Link href="/">
                   <RiHome5Line /> Home
                 </Nav.Link>
                 <Nav.Link href="/reservation">

@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Button, Form, InputGroup, FormControl } from 'react-bootstrap';
 import { FiCalendar, FiMapPin } from 'react-icons/fi';
+import { MdOutlineDescription } from 'react-icons/md';
 import vehicles from '../../data/vehicleList';
+import { jwtDecode } from 'jwt-decode';
 
 const EditReservation = ({
   reservation,
@@ -10,6 +12,9 @@ const EditReservation = ({
   setId,
   id,
   setIsEdit,
+  users,
+  setUsers,
+  getAllUsers,
 }) => {
   const [updatedValue, setUpdatedValue] = useState({
     model: reservation.model,
@@ -20,6 +25,21 @@ const EditReservation = ({
     desc: reservation.desc,
     owner: reservation.owner,
   });
+  let token;
+  let decoded;
+
+  try {
+    token = localStorage.getItem('token');
+
+    if (token) {
+      decoded = jwtDecode(token);
+    }
+    // console.log('Token:', token);
+    // console.log('Decoded:', decoded.role);
+  } catch (error) {
+    console.log('Invalid token', error);
+  }
+
   // UPDATE
   function handleInputChange(e) {
     setUpdatedValue({
@@ -28,10 +48,9 @@ const EditReservation = ({
     });
     console.log(updatedValue);
   }
-
+  console.log(users);
   function saveChanges() {
     try {
-      console.log('this is the id', id);
       axios
         .put(`http://localhost:7000/${id}`, {
           model: updatedValue.model,
@@ -40,6 +59,7 @@ const EditReservation = ({
           pickupdate: updatedValue.pickupdate,
           dropoffdate: updatedValue.dropoffdate,
           desc: updatedValue.desc,
+          status: updatedValue.status,
           // owner: updatedValue.owner,
         })
         .then((res) => console.log(res.data))
@@ -101,7 +121,7 @@ const EditReservation = ({
 
         <InputGroup className="mb-3">
           <InputGroup.Text id="basic-addon1" style={{ flex: 1 }}>
-            <FiMapPin />
+            <FiCalendar />
             &nbsp;Pick up
           </InputGroup.Text>
           <FormControl
@@ -129,7 +149,7 @@ const EditReservation = ({
 
         <InputGroup className="mb-3">
           <InputGroup.Text id="basic-addon1" style={{ flex: 1 }}>
-            <FiCalendar />
+            <MdOutlineDescription />
             &nbsp;Description
           </InputGroup.Text>
           <FormControl
@@ -140,8 +160,26 @@ const EditReservation = ({
             style={{ flex: 2 }}
           />
         </InputGroup>
+        {token && decoded.role === 'admin' ? (
+          <InputGroup className="mb-3">
+            <InputGroup.Text id="basic-addon1" style={{ flex: 1 }}>
+              <FiCalendar />
+              &nbsp;Status
+            </InputGroup.Text>
+            <Form.Select
+              name="status"
+              onChange={(e) => handleInputChange(e)}
+              value={updatedValue.status}
+              style={{ flex: 2 }}
+            >
+              <option>Choose Status</option>
+              <option value="approved">approved</option>
+              <option value="rejected">rejected</option>
+              <option value="pending">pending</option>
+            </Form.Select>
+          </InputGroup>
+        ) : null}
       </Form>
-
       <div>
         <Button variant="primary" className="m-1" onClick={() => saveChanges()}>
           Save

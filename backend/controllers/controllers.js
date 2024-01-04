@@ -29,8 +29,15 @@ const getReservation = async (req, res) => {
 const createReservation = async (req, res) => {
   try {
     let owner = req.user.id;
-    let { model, pickupplace, dropoffplace, pickupdate, dropoffdate, desc } =
-      req.body;
+    let {
+      model,
+      pickupplace,
+      dropoffplace,
+      pickupdate,
+      dropoffdate,
+      desc,
+      status,
+    } = req.body;
     let newReservation = {
       model,
       pickupplace,
@@ -38,6 +45,7 @@ const createReservation = async (req, res) => {
       pickupdate,
       dropoffdate,
       desc,
+      status,
       owner,
     };
     let reservation = await Reservation.create(newReservation);
