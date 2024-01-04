@@ -32,7 +32,9 @@ function App() {
 
   const getAllReservations = useCallback(async () => {
     try {
-      const response = await axios.get('http://localhost:7000/reservation');
+      const response = await axios.get(
+        'https://fast-rent-a-car.onrender.com/reservation',
+      );
       setReservations(response.data);
     } catch (error) {
       console.log(error);
@@ -42,7 +44,7 @@ function App() {
   function getAllUsers() {
     try {
       axios
-        .get('http://localhost:7000/users')
+        .get('https://fast-rent-a-car.onrender.com/users')
         .then((res) => {
           setUsers(res.data);
           console.log('ALL', res.data);

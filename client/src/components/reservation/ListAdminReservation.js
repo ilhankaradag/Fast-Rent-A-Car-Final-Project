@@ -41,7 +41,7 @@ const ListAdminReservation = ({
         const newReservations = reservations.map((reservation) => {
           if (id === reservation._id) {
             axios
-              .delete(`http://localhost:7000/${id}`)
+              .delete(`https://fast-rent-a-car.onrender.com/${id}`)
               .then((res) => alert('Deleted completed'))
               .then(() => getAllReservations())
               .catch((err) => console.log(err));
@@ -75,7 +75,7 @@ const ListAdminReservation = ({
     try {
       console.log('this is the id', id);
       axios
-        .put(`http://localhost:7000/${id}`, {
+        .put(`https://fast-rent-a-car.onrender.com/${id}`, {
           model: updatedValue.model,
           pickupplace: updatedValue.pickupplace,
           dropoffplace: updatedValue.dropoffplace,

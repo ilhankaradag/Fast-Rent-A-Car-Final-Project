@@ -11,7 +11,7 @@ const UserList = ({ getAllUsers, users, setUsers }) => {
         const newUsers = users.map((user) => {
           if (id === user._id) {
             axios
-              .delete(`http://localhost:7000/user/${id}`)
+              .delete(`https://fast-rent-a-car.onrender.com/${id}`)
               .then((res) => alert('Deleted completed'))
               .then(() => getAllUsers())
               .catch((err) => console.log(err));

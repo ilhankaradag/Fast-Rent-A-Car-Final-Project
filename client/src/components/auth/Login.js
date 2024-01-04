@@ -23,10 +23,13 @@ const Login = () => {
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      const res = await axios.post('http://localhost:7000/login', {
-        email: values.email,
-        password: values.password,
-      });
+      const res = await axios.post(
+        'https://fast-rent-a-car.onrender.com/login',
+        {
+          email: values.email,
+          password: values.password,
+        },
+      );
 
       if (res.status === 200) {
         localStorage.setItem('token', res.data.token);

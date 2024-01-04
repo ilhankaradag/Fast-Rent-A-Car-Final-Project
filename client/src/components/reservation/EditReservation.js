@@ -52,7 +52,7 @@ const EditReservation = ({
   function saveChanges() {
     try {
       axios
-        .put(`http://localhost:7000/${id}`, {
+        .put(`https://fast-rent-a-car.onrender.com/${id}`, {
           model: updatedValue.model,
           pickupplace: updatedValue.pickupplace,
           dropoffplace: updatedValue.dropoffplace,

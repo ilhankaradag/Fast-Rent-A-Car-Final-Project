@@ -21,11 +21,14 @@ const Register = () => {
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      const res = await axios.post('http://localhost:7000/register', {
-        email: values.email,
-        password: values.password,
-        username: values.username,
-      });
+      const res = await axios.post(
+        'https://fast-rent-a-car.onrender.com/register',
+        {
+          email: values.email,
+          password: values.password,
+          username: values.username,
+        },
+      );
       Swal.fire('Good job!', `${res.data.msg}`, 'success');
       navigate('/login');
     } catch (error) {

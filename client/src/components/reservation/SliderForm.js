@@ -23,7 +23,7 @@ const SliderForm = ({ getAllReservations }) => {
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      await axios.post('http://localhost:7000/create', values, {
+      await axios.post('https://fast-rent-a-car.onrender.com/create', values, {
         headers: { Authorization: `Bearer ${token}` },
       });
       navigate('/reservation/user');
